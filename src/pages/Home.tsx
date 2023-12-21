@@ -44,6 +44,7 @@ export default function Home() {
           setLoading={setLoading}
           imagePath={content.imagePath}
           imageURL={content.imageURL}
+          user={user}
         />
 
         <Text text={content.text} user={user} />

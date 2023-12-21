@@ -28,6 +28,7 @@ export default function Heading({ heading, user }: Props) {
   }, [heading]);
 
   const handleFormChange = (event: React.SyntheticEvent) => {
+    setError(null);
     const target = event.target as HTMLInputElement;
     setFormInfo({
       value: target.value,
@@ -37,6 +38,7 @@ export default function Heading({ heading, user }: Props) {
 
   const toggleEdit = () => {
     setEditing(!editing);
+    setError(null);
     setAttempted(false);
     setFormInfo({
       value: heading,
@@ -56,9 +58,6 @@ export default function Heading({ heading, user }: Props) {
         let message = "Unknown error";
         if (err instanceof Error) {
           message = err.message;
-          if (message === "Firebase: Error (auth/invalid-credential).") {
-            message = "Incorrect email or password";
-          }
         }
         if (typeof err === "string") {
           message = err;
