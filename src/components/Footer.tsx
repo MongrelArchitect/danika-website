@@ -17,7 +17,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="absolute bottom-0 p-2">
+    <footer className="p-2">
       {user ? (
         <button
           className="text-neutral-300 underline"

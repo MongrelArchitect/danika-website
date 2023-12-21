@@ -29,7 +29,7 @@ export default function Home() {
 
   const displayContent = () => {
     return (
-      <main className="relative flex flex-col items-center justify-center gap-8 bg-inherit border-2 border-red-400 max-w-[700px]">
+      <main className="relative flex w-full max-w-[700px] flex-col items-center justify-center gap-8 bg-inherit">
         {loading ? (
           <div className="absolute z-10 flex h-full w-full items-center justify-center gap-4 bg-inherit text-4xl">
             <span>Loading...</span>
@@ -49,7 +49,6 @@ export default function Home() {
         />
 
         <Text text={content.text} user={user} />
-
       </main>
     );
   };
