@@ -3,14 +3,14 @@ import User from "@customTypes/User";
 import cancelIcon from "@assets/close-box-outline.svg";
 import editIcon from "@assets/note-edit-outline.svg";
 import saveIcon from "@assets/content-save-outline.svg";
-import { updateHeading } from "@util/database";
+import { updateText } from "@util/database";
 
 interface Props {
-  heading: string;
+  text: string;
   user: null | User;
 }
 
-export default function Heading({ heading, user }: Props) {
+export default function Text({ text, user }: Props) {
   const [attempted, setAttempted] = useState(false);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<null | string>(null);
@@ -22,13 +22,13 @@ export default function Heading({ heading, user }: Props) {
 
   useEffect(() => {
     setFormInfo({
-      value: heading,
+      value: text,
       valid: true,
     });
-  }, [heading]);
+  }, [text]);
 
   const handleFormChange = (event: React.SyntheticEvent) => {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLTextAreaElement;
     setFormInfo({
       value: target.value,
       valid: target.validity.valid,
@@ -39,7 +39,7 @@ export default function Heading({ heading, user }: Props) {
     setEditing(!editing);
     setAttempted(false);
     setFormInfo({
-      value: heading,
+      value: text,
       valid: true,
     });
   };
@@ -49,7 +49,7 @@ export default function Heading({ heading, user }: Props) {
     if (formInfo.valid) {
       try {
         setLoading(true);
-        await updateHeading(formInfo.value);
+        await updateText(formInfo.value);
         toggleEdit();
       } catch (err) {
         console.error(err);
@@ -130,26 +130,26 @@ export default function Heading({ heading, user }: Props) {
     <div className="flex flex-wrap items-center justify-center gap-4">
       {user ? showControls() : null}
       {editing ? (
-        <form className="flex flex-col items-start gap-1 text-2xl">
+        <form className="flex flex-col items-start gap-1 text-xl">
           {attempted && error ? (
             <div className="w-full rounded bg-rose-700 p-2">{error}</div>
           ) : null}
-          <input
+          <textarea
             className="w-full rounded bg-neutral-100 p-2 text-slate-800"
-            type="text"
-            id="heading"
+            id="text"
             onChange={handleFormChange}
             required
+            rows={3}
             value={formInfo.value || ""}
           />
           {attempted && !formInfo.valid ? (
             <div className="w-full rounded bg-rose-700 p-2">
-              Heading required
+              Text required
             </div>
           ) : null}
         </form>
       ) : (
-        <h1 className="text-4xl">{heading}</h1>
+        <pre className="whitespace-pre-wrap font-sans text-xl">{text}</pre>
       )}
     </div>
   );
