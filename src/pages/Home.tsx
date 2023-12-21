@@ -26,7 +26,7 @@ export default function Home() {
 
   const displayContent = () => {
     return (
-      <div className="relative flex flex-col items-center justify-center gap-8 bg-inherit">
+      <main className="relative flex flex-col items-center justify-center gap-8 bg-inherit">
         {loading ? (
           <div className="absolute flex h-full w-full items-center justify-center gap-4 bg-inherit text-4xl">
             <span>Loading...</span>
@@ -43,7 +43,7 @@ export default function Home() {
           src={content.imageURL}
         />
         <p>{content.text}</p>
-      </div>
+      </main>
     );
   };
 
