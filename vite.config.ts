@@ -7,7 +7,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@assets": "/src/assets",
+      "@customTypes": "/src/types",
       "@pages": "/src/pages",
+      "@util": "/src/util",
     },
   },
 })
