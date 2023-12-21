@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { database } from "@util/firebase";
 
+import { UserContext } from "@contexts/UserContext";
+
 import Homepage from "@customTypes/Homepage";
 
+import Heading from "@components/Heading";
+
 export default function Home() {
+  const user = useContext(UserContext);
+
   const [content, setContent] = useState<Homepage>({
     heading: "",
     text: "",
@@ -14,7 +20,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const unsub = onSnapshot(doc(database, "content", "homepage"), (docu) => {
       const data = docu.data() as Homepage;
       setContent(data);
@@ -28,12 +33,14 @@ export default function Home() {
     return (
       <main className="relative flex flex-col items-center justify-center gap-8 bg-inherit">
         {loading ? (
-          <div className="absolute flex h-full w-full items-center justify-center gap-4 bg-inherit text-4xl">
+          <div className="absolute z-10 flex h-full w-full items-center justify-center gap-4 bg-inherit text-4xl">
             <span>Loading...</span>
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-transparent border-t-neutral-100" />
           </div>
         ) : null}
-        <h1 className="text-4xl">{content.heading}</h1>
+
+        <Heading heading={content.heading} user={user} />
+
         <img
           alt=""
           className="max-h-[320px]"
@@ -42,14 +49,10 @@ export default function Home() {
           }}
           src={content.imageURL}
         />
-        <p>{content.text}</p>
+        <pre className="whitespace-pre-wrap font-sans">{content.text}</pre>
       </main>
     );
   };
 
-  return (
-    <>
-      {displayContent()}
-    </>
-  );
+  return <>{displayContent()}</>;
 }
