@@ -4,6 +4,7 @@ import { database } from "@util/firebase";
 import { UserContext } from "@contexts/UserContext";
 import Homepage from "@customTypes/Homepage";
 import Heading from "@components/Heading";
+import Image from "@components/Image";
 import Text from "@components/Text";
 
 export default function Home() {
@@ -39,13 +40,10 @@ export default function Home() {
 
         <Heading heading={content.heading} user={user} />
 
-        <img
-          alt=""
-          className="max-h-[320px]"
-          onLoad={() => {
-            setLoading(false);
-          }}
-          src={content.imageURL}
+        <Image
+          setLoading={setLoading}
+          imagePath={content.imagePath}
+          imageURL={content.imageURL}
         />
 
         <Text text={content.text} user={user} />
