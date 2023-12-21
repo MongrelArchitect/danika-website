@@ -1,11 +1,14 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "@util/firebase";
 import { UserContext } from "@contexts/UserContext";
 
 export default function Footer() {
   const user = useContext(UserContext);
+
+  const location = useLocation();
+  console.log(location.pathname);
 
   const signOutUser = async () => {
     try {
@@ -16,9 +19,9 @@ export default function Footer() {
     }
   };
 
-  return (
-    <footer className="p-2">
-      {user ? (
+  const getLink = () => {
+    if (user) {
+      return (
         <button
           className="text-neutral-300 underline"
           onClick={signOutUser}
@@ -26,11 +29,23 @@ export default function Footer() {
         >
           Sign Out
         </button>
-      ) : (
-        <Link className="text-neutral-300 underline" to="/login">
-          Login
+      );
+    }
+
+    if (location.pathname === "/login") {
+      return (
+        <Link className="text-neutral-300 underline" to="/">
+          Home
         </Link>
-      )}
-    </footer>
-  );
+      );
+    }
+
+    return (
+      <Link className="text-neutral-300 underline" to="/login">
+        Login
+      </Link>
+    );
+  };
+
+  return <footer className="p-2">{getLink()}</footer>;
 }
